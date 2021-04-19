@@ -1,0 +1,40 @@
+name: PHP Tests
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: "COMPOSER: Validate"
+        run: composer validate
+
+      - name: "COMPOSER: Cache"
+        id: composer-cache
+        uses: actions/cache@v2
+        with:
+          path: vendor
+          key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-php-
+      - name: "COMPOSER: Update (if not cached)"
+        if: steps.composer-cache.outputs.cache-hit != 'true'
+        run: composer install --prefer-dist --no-progress --no-suggest
+
+      - name: "PHPStan"
+        run: composer phpstan
+
+      - name: "PHPUnit"
+        run: composer phpunit
+
+
+
+
