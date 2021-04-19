@@ -12,7 +12,7 @@ Trait for easier exception testing in [PHPUnit](https://github.com/sebastianberg
 
 ## Usage:
 
-Add a trait `use Zrnik\PHPUnit\Exception;` to your test case. 
+Add a trait `use Zrnik\PHPUnit\Exceptions;` to your test case. 
 Then the testing assertions are available.
 
 ```php
