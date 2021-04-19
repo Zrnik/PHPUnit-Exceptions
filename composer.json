@@ -1,12 +1,12 @@
 {
   "name": "zrnik/phpunit-exceptions",
-  "description": "Testing multiple exceptions in single phpunit method.",
-  "minimum-stability": "stable",
-  "license": "proprietary",
+  "description": "Trait for easier exception testing in PHPUnit.",
+  "version": "v0.0.1",
+  "license": "MIT",
   "authors": [
     {
-      "name": "Programátor",
-      "email": "email@example.com"
+      "name": "Štěpán Zrník",
+      "email": "stepan.zrnik@gmail.com"
     }
   ],
   "autoload": {
