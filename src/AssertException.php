@@ -17,23 +17,25 @@ final class AssertException
         string $expectedType, Closure $closure
     ): void
     {
-        $exceptionType = self::getThrownExceptionType($closure);
+        $exceptionResults = self::getThrownExceptionResult($closure);
 
-        if ($exceptionType === null)
+        if ($exceptionResults === null) {
             throw new AssertionFailedError(
                 sprintf(
                     "Exception '%s' expected, none thrown!",
                     $expectedType
                 )
             );
+        }
 
-        if ($exceptionType !== $expectedType)
+        if ($exceptionResults->type !== $expectedType) {
             throw new AssertionFailedError(
                 sprintf(
-                    "Exception '%s' expected, '%s' thrown!",
-                    $expectedType, $exceptionType
+                    "Exception '%s' expected, '%s' thrown!\nMessage: %s",
+                    $expectedType, $exceptionResults->type, $exceptionResults->message
                 )
             );
+        }
     }
 
     /**
@@ -44,86 +46,33 @@ final class AssertException
         Closure $closure
     ): void
     {
-        $exceptionType = self::getThrownExceptionType($closure);
+        $exceptionResult = self::getThrownExceptionResult($closure);
 
-        if ($exceptionType !== null)
+        if ($exceptionResult !== null) {
             throw new AssertionFailedError(
                 sprintf(
-                    "No exception expected, but '%s' thrown!",
-                    $exceptionType
+                    "No exception expected, but '%s' was thrown!\nMessage: %s",
+                    $exceptionResult->type, $exceptionResult->message
                 )
             );
+        }
     }
 
     // TODO: assertExceptionCode, assertExceptionMessage
 
-    //region Exception Info Mining
-
     /**
      * @param Closure $closure
-     * @return string|null
+     * @return ThrownResult|null
      */
-    private static function getThrownExceptionType(Closure $closure): ?string
-    {
-        $exception = self::getThrownException($closure);
-
-        if ($exception === null)
-            return null;
-
-        /**
-         * @var string|false $class
-         */
-        $class = @get_class($exception);
-
-        if ($class === false)
-            return null;
-
-        return $class;
-    }
-
-    /**
-     * @param Closure $closure
-     * @return string|null
-     */
-    private static function getThrownExceptionMessage(Closure $closure): ?string
-    {
-        $exception = self::getThrownException($closure);
-
-        if ($exception === null)
-            return null;
-
-        return $exception->getMessage();
-    }
-
-    /**
-     * @param Closure $closure
-     * @return int|null
-     */
-    private static function getThrownExceptionCode(Closure $closure): ?int
-    {
-        $exception = self::getThrownException($closure);
-
-        if ($exception === null)
-            return null;
-
-        return $exception->getCode();
-    }
-
-    /**
-     * @param Closure $closure
-     * @return Throwable|null
-     */
-    private static function getThrownException(Closure $closure): ?Throwable
+    private static function getThrownExceptionResult(Closure $closure): ?ThrownResult
     {
         try {
             $closure();
         } catch (Throwable $t) {
-            return $t;
+            return ThrownResult::createFromThrowable($t);
         }
 
         return null;
     }
-
-    //endregion
 
 }

@@ -7,7 +7,7 @@ use Closure;
 trait Exceptions
 {
     // PHPUnit Method
-    abstract function addToAssertionCount(int $howMuch);
+    abstract protected function addToAssertionCount(int $howMuch);
 
     /**
      * This method will run the closure and

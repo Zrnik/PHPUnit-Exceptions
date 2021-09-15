@@ -78,7 +78,7 @@ class ExampleTest extends TestCase
         $this->expectException(NotInRangeException::class);
         $exampleObject->assertRange(0);
         //The execution ends here, the method will not continue,
-        // after first exception thrown so i need to create
+        // after first exception thrown, so I need to create
         // method for every exception tested...
     }
 
@@ -118,7 +118,7 @@ class ExampleTest extends TestCase
 
         try {
             $exampleObject->assertRange(0);
-            // I don't want to write so long error text everytime i am checking for exceptions!
+            // I don't want to write so long error text everytime I am checking for exceptions!
             throw new AssertionFailedError(sprintf("Exception '%s' expected, but not thrown!", NotInRangeException::class));
         } catch (NotInRangeException $ex) {
             $this->addToAssertionCount(1); // Yey! Thrown!

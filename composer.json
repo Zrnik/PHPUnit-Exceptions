@@ -1,7 +1,6 @@
 {
   "name": "zrnik/phpunit-exceptions",
   "description": "Trait for easier exception testing in PHPUnit.",
-  "version": "v0.0.1",
   "license": "MIT",
   "authors": [
     {
@@ -24,10 +23,15 @@
     "phpunit/phpunit": "^9"
   },
   "require-dev": {
+    "roave/security-advisories": "dev-latest",
     "phpstan/phpstan": "^0.12"
   },
   "scripts": {
     "phpunit": "phpunit tests",
-    "phpstan": "phpstan analyse src tests -l max"
+    "phpstan": "phpstan analyse src tests -l max",
+    "tests": [
+      "@phpstan",
+      "@phpunit"
+    ]
   }
 }

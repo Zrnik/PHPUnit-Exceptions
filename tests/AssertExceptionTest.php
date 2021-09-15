@@ -20,7 +20,7 @@ class AssertExceptionTest extends TestCase
         $this->expectException(NotInRangeException::class);
         $exampleObject->assertRange(0);
         //The execution ends here, the method will not continue,
-        // after first exception thrown so i need to create
+        // after first exception thrown, so I need to create
         // method for every exception tested...
     }
 
