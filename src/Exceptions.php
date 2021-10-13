@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Zrnik\PHPUnit;
 
@@ -33,19 +33,23 @@ trait Exceptions
     /**
      * This method will run the closure and
      * will fail the test, it ANY exception
-     * was thrown.
+     * was thrown. If no exceptions thrown,
+     * returns closure return data.
      *
      * @param Closure $closure
+     * @return mixed
      */
     public function assertNoExceptionThrown(
         Closure $closure
-    ): void
+    )
     {
-        AssertException::assertNoExceptionThrown(
+        $closureResult = AssertException::assertNoExceptionThrown(
             $closure
         );
 
         $this->addToAssertionCount(1);
+
+        return $closureResult;
     }
 
 }
