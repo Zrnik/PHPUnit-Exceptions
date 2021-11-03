@@ -7,25 +7,19 @@ use Throwable;
 class ThrownResult
 {
     public string $type;
-    public string $message;
-    public int $code;
+    public Throwable $throwable;
 
     final private function __construct(
-        string $type, string $message, int $code
+        Throwable $throwable
     )
     {
-        $this->type = $type;
-        $this->message = $message;
-        $this->code = $code;
+        $this->type =  static::getExceptionType($throwable);
+        $this->throwable = $throwable;
     }
 
     public static function createFromThrowable(Throwable $throwable): ThrownResult
     {
-        return new static(
-            static::getExceptionType($throwable),
-            $throwable->getMessage(),
-            $throwable->getCode()
-        );
+        return new static($throwable);
     }
 
     /**

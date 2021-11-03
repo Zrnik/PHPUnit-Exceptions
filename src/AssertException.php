@@ -32,7 +32,7 @@ final class AssertException
             throw new AssertionFailedError(
                 sprintf(
                     "Exception '%s' expected, '%s' thrown!\nMessage: %s",
-                    $expectedType, $exceptionResults->type, $exceptionResults->message
+                    $expectedType, $exceptionResults->type, $exceptionResults->throwable->getMessage()
                 )
             );
         }
@@ -53,8 +53,8 @@ final class AssertException
             throw new AssertionFailedError(
                 sprintf(
                     "No exception expected, but '%s' was thrown!\nMessage: %s",
-                    $exceptionResult->type, $exceptionResult->message
-                )
+                    $exceptionResult->type, $exceptionResult->throwable->getMessage()
+                ), $exceptionResult->throwable->getCode(), $exceptionResult->throwable
             );
         }
 
