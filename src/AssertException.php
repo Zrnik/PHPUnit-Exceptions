@@ -11,11 +11,12 @@ final class AssertException
     /**
      * @param string $expectedType
      * @param Closure $closure
+     * @return Throwable
      * @see Exceptions::assertExceptionThrown for more information!
      */
     public static function assertExceptionThrown(
         string $expectedType, Closure $closure
-    ): void
+    ): Throwable
     {
         $exceptionResults = self::getThrownExceptionResult($closure);
 
@@ -36,6 +37,8 @@ final class AssertException
                 )
             );
         }
+
+        return $exceptionResults->throwable;
     }
 
     /**

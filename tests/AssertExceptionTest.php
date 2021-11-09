@@ -93,12 +93,15 @@ class AssertExceptionTest extends TestCase
         });
         $this->addToAssertionCount(2); //Must be done by hand!
 
-        AssertException::assertExceptionThrown(
+        $throwable = AssertException::assertExceptionThrown(
             NotInRangeException::class,
             function () use ($exampleObject) {
                 $exampleObject->assertRange(11);
             }
         );
+
+        $this->assertInstanceOf(NotInRangeException::class, $throwable);
+
         $this->addToAssertionCount(1); //Must be done by hand!
     }
 
@@ -109,12 +112,14 @@ class AssertExceptionTest extends TestCase
     {
         $exampleObject = new ExampleObject();
 
-        $this->assertExceptionThrown(
+        $throwable = $this->assertExceptionThrown(
             NotInRangeException::class,
             function () use ($exampleObject) {
                 $exampleObject->assertRange(0);
             }
         );
+
+        $this->assertInstanceOf(NotInRangeException::class, $throwable);
 
         $this->assertNoExceptionThrown(
             function () use ($exampleObject) {
@@ -123,12 +128,14 @@ class AssertExceptionTest extends TestCase
             }
         );
 
-        $this->assertExceptionThrown(
+        $throwable = $this->assertExceptionThrown(
             NotInRangeException::class,
             function () use ($exampleObject) {
                 $exampleObject->assertRange(11);
             }
         );
+
+        $this->assertInstanceOf(NotInRangeException::class, $throwable);
     }
     //endregion
 

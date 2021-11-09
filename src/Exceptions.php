@@ -3,6 +3,7 @@
 namespace Zrnik\PHPUnit;
 
 use Closure;
+use Throwable;
 
 trait Exceptions
 {
@@ -17,17 +18,20 @@ trait Exceptions
      *
      * @param string $expectedType
      * @param Closure $closure
+     * @return Throwable
      */
     public function assertExceptionThrown(
         string $expectedType,
         Closure $closure
-    ): void
+    ): Throwable
     {
-        AssertException::assertExceptionThrown(
+        $throwable = AssertException::assertExceptionThrown(
             $expectedType, $closure
         );
 
         $this->addToAssertionCount(1);
+
+        return $throwable;
     }
 
     /**
